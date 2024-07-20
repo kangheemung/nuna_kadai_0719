@@ -1,5 +1,5 @@
 
-    const API_KEY = "3c13cc157319649e269e65600cd04117";
+    const API_KEY = "#";
     const city = "seoul";
     const catnum = 200;
     const lang = "kr"; // 언어 설정 추가
