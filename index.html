@@ -7,14 +7,57 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <section name="serch" id="serch">
-        <input id = "serch_text_box">
-        <button id = "serch_text_button">button</button>
-    </section>
+    <div class="top">
+        <div  id = "head_top" class = "head_top">
+            <div id ="header" class="header">
+                <button id="hamburger" class="hamburger">&#9776;</button>
+                <button>button1</button>
+                <button>button2</button>
+                <button>button3</button>
+                <button>button</button>
+                <button>button1</button>
+                <button>button2</button>
+                <button>button3</button>
+            </div>
+            <div id ="sidebar" class="sidebar">
+            <button id ="close">X</button>
+            <button>button1</button>
+            <button>button2</button>
+            <button>button3</button>
+            <button>button</button>
+            <button>button1</button>
+            <button>button2</button>
+            <button>button3</button>
+            </div>
+        </section>
+    </div>
+    <div class="search">
+        <section >
+            <div class="input-group">
+                <div class="input-group mb-3">
+                    <input id = "search_text_box" type="text" class="form-control" placeholder="찾고싶은 키워드" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button" id = "search_text_button">Button</button>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div>
     <section >
+      <section id="output"></section>
+      <span class="nowtime"></span>
+        <span>현재날씨</span>
         
+        <h3>
+        </h3>
+        <h3 id="SeoulIcon" class="SeoulIcon"></h3>
+        <h3 id="SeoulNowtemp" class="SeoulNowtemp">현재기온:</h3>
+        <h3 id="SeoulLowtemp" class="SeoulLowtemp">최저기온:</h3>
+        <h3 id="SeoulHightemp" class="SeoulHightemp">최대기온:</h3>
     </section>
-
+</div>
 </body>
-<script src="main.js"></script>
+
 </html>
+<script src= "main.js">
+
+</script>
