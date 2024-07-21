@@ -81,27 +81,16 @@ const kelvinTemp = `${data.main.temp}`
 function kelvinToCelsius(kelvin) { //섭씨 온도 계산
     return kelvin - 273.15; // Kelvin 값을 Celsius로 변환
 }
-
 const celsiusTemp = kelvinToCelsius(kelvinTemp); // 섭씨로 변환된 온도 값
 const Hightemp= kelvinToCelsius(data.main.temp_min);
 const celsiusTempMin = kelvinToCelsius(data.main.temp_max);
 const iconUrl = '<img src="http://openweathermap.org/img/wn/' + data.weather[0].icon + '.png" alt="' + data.weather[0].description + '"/>';
-
 // 이미지를 SeoulIcon 요소에 삽입
-
+document.querySelector('.SeoulIcon').innerHTML = iconUrl;
 SeoulNowtemp.innerText = `현재온도는:  ${celsiusTemp.toFixed(2)}°C`; // data.main.temp로 현재 기온을 가져올 수 있음
-
-const weathericonUrl =
-'<img src= "http://openweathermap.org/img/wn/'
-+ WeatherResult.weather[0].icon +
-'.png" alt="' + WeatherResult.weather[0].description + '"/>'
-
-$('.SeoulIcon').html(weathericonUrl);
+document.querySelector('.SeoulIcon').innerHTML = iconUrl;
 SeoulIcon.innerText= `${city}의 날씨는?`;
-
-
 SeoulLowtemp.innerText = `최저 기온은 ${celsiusTempMin.toFixed(2)}°C 입니다.`;
-
 SeoulHightemp.innerText = `최대 기온은 ${Hightemp.toFixed(2)}°C 입니다.`;
 
 // 자세한 날씨 : weather - description
