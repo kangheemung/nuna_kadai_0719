@@ -3,27 +3,26 @@ body {
     background-color: rgb(215, 231, 250);
     height: 100vh;
 }
-
 .top {
     text-align: center;
     justify-content: center;
     flex-wrap: wrap;
 }
-
 .search{
-    text-align: left;
+    text-align: center;
     display: flex;
 }
+.btn btn-outline-secondary{
+    height: 50px;
+}
 .form-control{
-    width: 150px;
-    height: 30px;
+    width: 50px;
+    height: 35px;
     text-align: center;
-    margin:1em ;
 }
 .hamburger{
    width: 50px;
    height: 30px;
-
 }
 .header{
     width:100%;
@@ -41,7 +40,6 @@ body {
 .head_top button:hover {
     background-color: #e9cbff; /* ホバー時の背景色を設定 */
 }
-
 .btn.btn-outline-secondary {
     border: 2px solid white;
     background-color:  white;
