@@ -11,25 +11,22 @@
 <body>
     <div class="top">
         <div  id = "head_top" class = "head_top">
-            <div id ="header" class="header">
-                <button id="hamburger" class="hamburger">&#9776;</button>
+            <div id ="header" class = "header">
+                <button id = "hamburger" class="hamburger">&#9776;</button>
+                <button>Seoul</button>
+                <button>Tokyo</button>
+                <button>New york</button>
+                <button>London</button>
                 <button>button1</button>
-                <button>button2</button>
-                <button>button3</button>
-                <button>button</button>
-                <button>button1</button>
-                <button>button2</button>
-                <button>button3</button>
+          
             </div>
             <div id ="sidebar" class="sidebar">
             <button id ="close">X</button>
-            <button>button1</button>
-            <button>button2</button>
-            <button>button3</button>
+            <button>Seoul</button>
+            <button>Tokyo</button>
+            <button>New york</button>
             <button>button</button>
-            <button>button1</button>
-            <button>button2</button>
-            <button>button3</button>
+    
             </div>
         </section>
     </div>
@@ -46,7 +43,9 @@
                             <option selected disabled>Choose a city</option>
                             <option value="seoul">Seoul</option>
                             <option value="tokyo">Tokyo</option>
-                            <option value="newyork">New York</option>
+                            <option value="london">London</option>
+                            <option value="china">China</option>
+                            <option value="europe">Europe</option>
                         </select>
                     </div>
                 </div>
@@ -56,14 +55,20 @@
     <div>
     <section >
       <section id="output"></section>
-      <span class="nowtime"></span>
-        <span>현재날씨</span>
-
-        <h3 id="SeoulIcon" class="SeoulIcon"></h3>
-        <h3 id="weather_img" class="weather_img"></h3>
-        <h3 id="SeoulNowtemp" class="SeoulNowtemp">현재기온:</h3>
-        <h3 id="SeoulLowtemp" class="SeoulLowtemp">최저기온:</h3>
-        <h3 id="SeoulHightemp" class="SeoulHightemp">최대기온:</h3>
+      <div class= "weather_box">
+        <span class="nowtime"></span>
+        <div class="weather_top">
+            <h3 id="SeoulNowtemp" class="SeoulNowtemp"> </h3>
+            <h3 id="SeoulIcon" class="SeoulIcon"> </h3>
+            <span id="curent_weather"> </span>
+            <h3 id="weather_img" class="weather_img"> </h3>
+            <h3 id="SeoulNowtemp" class="SeoulNowtemp"> </h3>
+        </div>
+        <div class="side_curent_weather">
+            <h3 id="SeoulLowtemp" class="SeoulLowtemp"></h3>
+            <h3 id="SeoulHightemp" class="SeoulHightemp"></h3>
+        </div>
+      </div>
     </section>
 </div>
 </body>

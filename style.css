@@ -37,6 +37,7 @@ body {
     color: #fff; /* テキストカラーを白色に設定 */
     border: none;
 }
+
 .head_top button:hover {
     background-color: #e9cbff; /* ホバー時の背景色を設定 */
 }
@@ -47,6 +48,17 @@ body {
 }
 .head_top:focus {
     outline: none;
+}
+.side_curent_weather{
+    border: 1px  solid rgb(255, 255, 255);
+}
+.weather_box{
+    border: 5px  solid rgb(255, 255, 255);
+    display: flex;
+    justify-content: space-between;
+}
+.weather_top{
+    display:flex;
 }
 @media screen and (min-width: 500px) {
     #hamburger {
@@ -84,6 +96,7 @@ body {
         left: 0;
         background-color: #333; /* サイドバーの背景色を設定 */
         padding-top: 20px;
+        z-index: 9999; 
     }
     .head_top button {
         margin-top: 1em;
