@@ -13,10 +13,13 @@
     const close = document.getElementById("close");
     const citySelect = document.getElementById("inputGroupSelect03");
     const curent_weather = document.getElementById("curent_weather");
-
+    const SeoulNowtemp = document.getElementById("SeoulNowtemp");
     const SeoulLowtemp = document.getElementById("SeoulLowtemp");
     const SeoulHightemp= document.getElementById("SeoulHightemp");
     const weathericonUrl= document.getElementById("weather_img");
+    // Set the weather icon image
+
+
 
     // sidebar要素を取得する
     const head_top = document.querySelector(".head_top");
@@ -70,21 +73,16 @@ hamburgers.forEach(hamburger => {
 
 //イメージクリックしたらみえるようにする
 console.log(url)
-const getNews = async () => {
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log(response);
-        console.log(data);
-        // Make sure set_cloud function is called after getting weather data
-        set_cloud(data);
-
-        // Other code...
-    } catch (error) {
-        console.error(error.message);
-    }
-};
-
+        const getNews = async () => {
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                console.log(response);
+                console.log (data)
+                set_cloud(data);
+            } catch (error) {
+                console.error(error.message);
+}}
 // 서울의 현재 기온을 SeoulNowtemp 요소에 출력
 const SeoulNowtemp = document.querySelector(".SeoulNowtemp");
 const kelvinTemp = `${data.main.temp}`
@@ -95,61 +93,45 @@ function kelvinToCelsius(kelvin) { //섭씨 온도 계산
 const celsiusTemp = kelvinToCelsius(kelvinTemp); // 섭씨로 변환된 온도 값
 const Hightemp= kelvinToCelsius(data.main.temp_min);
 const celsiusTempMin = kelvinToCelsius(data.main.temp_max);
+// Set the weather icon image in SeoulIcon element
+const SeoulIcon = document.getElementById('SeoulIcon');
+const iconImg = SeoulIcon.querySelector('img');
+const iconUrl = `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
 const weatherInfo = data.weather[0];
+
 console.log("Description:", weatherInfo.description);
 console.log("Main:", weatherInfo.main);
 
-const iconUrl = '<img src="http://openweathermap.org/img/wn/' + data.weather[0].icon + '.png" alt="' + data.weather[0].description + '"/>';
 // 이미지를 SeoulIcon 요소에 삽입
 
 // 첫글자 대문자로 바꾸기
-
+//날씨 아이콘
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
-//날씨 아이콘
 function set_cloud(data) {
     let weather = data.weather[0].main;
-    console.log(weather);
+    const SeoulIcon = document.getElementById('SeoulIcon');
 
-    html.classList.remove(...html.classList);
-    descriptionIcon.classList.remove(...descriptionIcon.classList);
-
-    const SeoulIcon = document.getElementById('SeoulIcon'); // Get the <h3> element by id
-
+    // Remove existing classes to prevent duplication
+    SeoulIcon.className = '';
+    // Add classes based on weather condition
     if (weather === 'Clouds') {
-        html.classList.add('weather-clouds');
-        descriptionIcon.classList.add('fas', 'fa-cloud-sun');
-        SeoulIcon.classList.add('fas', 'fa-cloud-sun'); // Add cloud-sun icon class to SeoulIcon
-    } else if (weather === 'Thunderstom') {
-        html.classList.add('weather-thunderstorm');
-        descriptionIcon.classList.add('fas', 'fa-bolt');
-        SeoulIcon.classList.add('fas', 'fa-bolt'); // Add bolt icon class to SeoulIcon
+        SeoulIcon.classList.add('fas', 'fa-cloud-sun');
+    } else if (weather === 'Thunderstorm') {
+        SeoulIcon.classList.add('fas', 'fa-bolt');
     } else if (weather === 'Drizzle') {
-        html.classList.add('weather-drizzle');
-        descriptionIcon.classList.add('fas', 'fa-water');
-        SeoulIcon.classList.add('fas', 'fa-water'); // Add water icon class to SeoulIcon
+        SeoulIcon.classList.add('fas', 'fa-water');
     } else if (weather === 'Rain') {
-        html.classList.add('weather-rain');
-        descriptionIcon.classList.add('fas', 'fa-umbrella');
-        SeoulIcon.classList.add('fas', 'fa-umbrella'); // Add umbrella icon class to SeoulIcon
+        SeoulIcon.classList.add('fas', 'fa-umbrella');
     } else if (weather === 'Snow') {
-        html.classList.add('weather-snow');
-        descriptionIcon.classList.add('fas', 'fa-snowflake');
-        SeoulIcon.classList.add('fas', 'fa-snowflake'); // Add snowflake icon class to SeoulIcon
+        SeoulIcon.classList.add('fas', 'fa-snowflake');
     } else if (weather === 'Atmosphere') {
-        html.classList.add('weather-atmosphere');
-        descriptionIcon.classList.add('fas', 'fa-smog');
-        SeoulIcon.classList.add('fas', 'fa-smog'); // Add smog icon class to SeoulIcon
+        SeoulIcon.classList.add('fas', 'fa-smog');
     } else {
-        html.classList.add('weather-clear');
-        descriptionIcon.classList.add('fas', 'fa-cloud');
-        SeoulIcon.classList.add('fas', 'fa-cloud'); // Add cloud icon class to SeoulIcon
+        SeoulIcon.classList.add('fas', 'fa-cloud');
     }
 }
-
-
 SeoulIcon.innerText = capitalizeFirstLetter(city);
 
 weatherInfo.innerText = weatherInfo;
@@ -181,6 +163,4 @@ console.log("풍향은 ",data["wind"]["deg"],"입니다.")
 //  풍속 : wind - speed
 console.log("풍속은 ",data["wind"]["speed"],"입니다.")
 
-
-
-        getNews();
+getNews();
