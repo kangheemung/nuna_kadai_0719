@@ -12,15 +12,17 @@
     const sidebar = document.querySelector(".sidebar");
     const close = document.getElementById("close");
     const citySelect = document.getElementById("inputGroupSelect03");
-    const curent_weather = document.getElementById("curent_weather");
     const wether_city = document.getElementById("wether_city");
     const SeoulNowtemp = document.getElementById("SeoulNowtemp");
     const SeoulLowtemp = document.getElementById("SeoulLowtemp");
     const SeoulHightemp= document.getElementById("SeoulHightemp");
-    const weatherImgElement = document.getElementById('weather_img');
+    const weather_wind= document.getElementById("weather_wind");
+    const weather_img= document.getElementById('weather_img');
+    const humidity = document.getElementById("humidity");
 
     // sidebar要素を取得する
     const head_top = document.querySelector(".head_top");
+    citySelect.value = "seoul"; 
     citySelect.addEventListener("change", function() {
       city = this.value.toLowerCase();// 선택한 도시명으로 city 변수 업데이트
         console.log("Selected City:", city); // 선택한 도시명을 확인
@@ -77,7 +79,7 @@ console.log(url)
                 const data = await response.json();
                 console.log(response);
                 console.log (data)
-                set_cloud(data);
+                //set_cloud(data);
 
 // 서울의 현재 기온을 SeoulNowtemp 요소에 출력
 
@@ -91,12 +93,17 @@ const Hightemp= kelvinToCelsius(data.main.temp_min);
 const celsiusTempMin = kelvinToCelsius(data.main.temp_max);
 // Set the weather icon image in SeoulIcon element
 const iconUrl = `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
-const city = data.weather[0];
-  weatherImgElement.innerHTML = `<img src="${iconUrl}" alt="Weather Icon">`;
-    console.log("Description:", city.description);
-    console.log("Main:", city.main);
+weather_img.setAttribute('src', iconUrl);
+weather_img.setAttribute('alt', 'Weather Icon');
+weather_wind.innerHTML= `풍속은 ${data.wind.speed}m/s`
+humidity.innerHTML=`습도${data.main.humidity}%`
+//위치
+    console.log("Description:", data.weather[0].description);
+    console.log("Main:", data.main);
     console.log("iconUrl", iconUrl);
-// 이미지를 SeoulIcon 요소에 삽입
+// 이미지Icon 요소에 삽입
+// const weather_img = data.weather[0].icon;
+ weather_img.innerHTML = `<img src="${iconUrl}" alt="Weather Icon" class="large-icon">`;
 
 // 첫글자 대문자로 바꾸기
 //날씨 아이콘
@@ -105,71 +112,33 @@ function capitalizeFirstLetter(string) {
 }
 
 
-function set_cloud(data) {
-    let weatherIcon = data.weather[0].icon;
-    // Check if weatherImgElement exists before proceeding
-    if (weatherImgElement) {
-        // Remove existing classes to prevent duplication
-        weatherImgElement.className = '';
-        // Add classes based on weather icon
-        switch (weatherIcon) {
-            case '01d':
-                weatherImgElement.classList.add('fas', 'fa-sun');
-                break;
-            case '02d':
-                weatherImgElement.classList.add('fas', 'fa-cloud-sun');
-                break;
-            case '03d':
-            case '04d':
-                weatherImgElement.classList.add('fas', 'fa-cloud');
-                break;
-            case '09d':
-            case '10d':
-                weatherImgElement.classList.add('fas', 'fa-cloud-showers-heavy');
-                break;
-            case '11d':
-                weatherImgElement.classList.add('fas', 'fa-bolt');
-                break;
-            case '13d':
-                weatherImgElement.classList.add('fas', 'fa-snowflake');
-                break;
-            default:
-                weatherImgElement.classList.add('fas', 'fa-question');
-        }
-    } else {
-        console.error('Element with id "weather_img" not found.');
-    }
-}
+
     // Remove existing classes to prevent duplication
   //  weatherImgElement.className = '';
     // Add classes based on weather condition
-  //  if (weather === 'Clouds') {
-  //      weatherImgElement.classList.add('fas', 'fa-cloud-sun');
-   // } else if (weather === 'Thunderstorm') {
-   //     weatherImgElement.classList.add('fas', 'fa-bolt');
-   // } else if (weather === 'Drizzle') {
-   //     weatherImgElement.classList.add('fas', 'fa-water');
-  //  } else if (weather === 'Rain') {
-   //     weatherImgElement.classList.add('fas', 'fa-umbrella');
-  //  } else if (weather === 'Snow') {
-   //     weatherImgElement.classList.add('fas', 'fa-snowflake');
-   // } else if (weather === 'Atmosphere') {
-   //     weatherImgElement.classList.add('fas', 'fa-smog');
- //   } else {
-   ////     weatherImgElement.classList.add('fas', 'fa-cloud');
-  //  }
-//}
-city.description = data.weather[0].description;
-city.main = data.weather[0].main;
-wether_city.innerText = data.name;
-curent_weather.innerText = data.weather[0].main;
 
-// Update this line to set the innerText of curent_weather to the weather description
+   //   if (weather === 'Clouds') {
+   //       weatherImgElement.classList.add('fas', 'fa-cloud-sun');
+   //   } else if (weather === 'Thunderstorm') {
+   //       weatherImgElement.classList.add('fas', 'fa-bolt');
+   //   } else if (weather === 'Drizzle') {
+   //       weatherImgElement.classList.add('fas', 'fa-water');
+   //   } else if (weather === 'Rain') {
+   //       weatherImgElement.classList.add('fas', 'fa-umbrella');
+    //  } else if (weather === 'Snow') {
+    //      weatherImgElement.classList.add('fas', 'fa-snowflake');
+    //  } else if (weather === 'Atmosphere') {
+     //     weatherImgElement.classList.add('fas', 'fa-smog');
+     // } else {
+     //     weatherImgElement.classList.add('fas', 'fa-cloud');
+     // }
+ // }
+wether_city.innerText = data.name;
+//Update this line to set the innerText of curent_weather to the weather description
 
 SeoulNowtemp.innerText = `${Math.floor(celsiusTemp)}°C`;
  // data.main.temp로 현재 기온을 가져올 수 있음
-SeoulLowtemp.innerText = `최저 기온은 ${celsiusTempMin.toFixed(2)}°C 입니다.`;
-SeoulHightemp.innerText = `최대 기온은 ${Hightemp.toFixed(2)}°C 입니다.`;
+SeoulLowtemp.innerText = ` ${Math.floor(celsiusTempMin)} /${Math.floor(Hightemp)}°C`;
 console.log("날씨는 ",data["weather"][0]["icon"],"입니다.")
 // 자세한 날씨 : weather - description
 console.log("날씨는 ",data["weather"][0]["description"],"입니다.")
