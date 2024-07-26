@@ -1,9 +1,13 @@
 const API_KEY = config.apikey;
+const MOVE_API_KEY = move_api.move_apikey;
 let city = "Seoul";
 const catnum = 200;
 const lang = "kr"; // 언어 설정 추가
 const url = new URL(
   `http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=${lang}&appid=${API_KEY}`
+);
+const movieurl = new URL(
+  `http://www.omdbapi.com/?i=tt3896198&apikey=${MOVE_API_KEY}`
 );
 
 const urlcat = new URL(`https://http.cat/${catnum}`);
@@ -22,6 +26,13 @@ const weather_wind = document.getElementById("weather_wind");
 const weather_img = document.getElementById("weather_img");
 const humidity = document.getElementById("humidity");
 const weatherMonthElement = document.getElementById("weather_month");
+
+const movie_news = async () => {
+  const movieurl = new URL(
+`http://www.omdbapi.com/?i=tt3896198&apikey=${MOVE_API_KEY}&t=${t}`
+  );
+  console.log("movieurl", movieurl);
+};
 
 // sidebar要素を取得する
 const head_top = document.querySelector(".head_top");

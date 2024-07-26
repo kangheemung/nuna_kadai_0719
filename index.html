@@ -30,11 +30,25 @@
     </div>
     <div class="search">
         <section >
-            <div class="input-group">
-                <div class="input-group mb-3">
-                    <input id = "search_text_box" type="text" class="form-control" placeholder="찾고싶은 키워드" aria-label="Recipient's username" aria-describedby="button-addon2">
-                    <button class="btn btn-outline-secondary" type="button" id = "search_text_button">Button</button>
-                </div>
+<div class="top_search">
+<div>title:<input class="input-group mb-3"></div>
+<div>Year:<input id = "search_text_box" type="text" class="input-group mb-3 placeholder="찾고싶은 키워드" ></div>
+<div class="input-group mb-3">
+<select class="title-select" id="inputGroupSelect03" aria-label="Example select with button addon">
+<option selected disabled>plot</option>
+<option value="short">Short</option>
+</div>
+  </select>
+</div>
+  <div class="input-group mb-3">
+    <select class="Response" id="inputGroupSelect03" aria-label="Example select with button addon">
+<option selected disabled>json</option>
+</select>
+  </div>
+
+<button class="btn btn-outline-secondary" type="button" id = "search_text_button">Button</button>
+<button class="btn btn-outline-secondary" type="button" id = "search_reset">reset</button>
+</div>
                 <div>
                     <div class="input-group mb-3">
                         <select class="form-select" id="inputGroupSelect03" aria-label="Example select with button addon">
@@ -92,5 +106,6 @@
       integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
       crossorigin="anonymous"
     ></script>
+    <script src="apikey.js"></script>
 <script src= "main.js"></script>
-<script src="apikey.js"></script>
+

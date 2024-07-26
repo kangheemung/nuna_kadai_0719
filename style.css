@@ -65,6 +65,14 @@ body {
 .wether_city{font-size: 15px;}
 .SeoulNowtemp{font-size: 70px;
 }
+.top_search{
+display: flex;
+margin: 1em;
+font-size: 16px;
+}
+.top_search div{
+display: flex;
+margin-left: 5px;}
 .SeoulLowtemp,
 .SeoulHightemp,
 .weather_wind,
