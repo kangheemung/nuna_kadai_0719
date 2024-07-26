@@ -2,8 +2,24 @@ body {
     text-align: center;
     background-color: rgb(215, 231, 250);
     height: 100vh;
+    justify-content: center; /* Center items horizontally */
+    align-items: center; 
+text-align: center;
 }
-
+.search_box_contain {
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    text-align: center; /* Center text within the element */
+}
+.form-select{
+    width: 100px;
+    height: 40px;
+    margin-left: 1em;
+}
+.reset_button{
+margin-left: 10px;
+}
 .top {
     text-align: center;
     justify-content: center;
@@ -13,9 +29,7 @@ body {
     text-align: center;
     display: flex;
 }
-.btn btn-outline-secondary{
-    height: 50px;
-}
+
 .form-control{
     width: 50px;
     height: 35px;
@@ -45,10 +59,10 @@ body {
 .head_top button:hover {
     background-color: #e9cbff; /* ホバー時の背景色を設定 */
 }
-.btn.btn-outline-secondary {
-    border: 2px solid white;
-    background-color:  white;
+.btn .btn-outline-secondary {
+font-size: large;
     height: 35px;
+    width:50px;
 }
 .head_top:focus {
     outline: none;
@@ -62,17 +76,46 @@ body {
     display: flex;
     justify-content: space-between;
 }
-.wether_city{font-size: 15px;}
-.SeoulNowtemp{font-size: 70px;
+.wether_city{
+font-size: 15px;
 }
-.top_search{
-display: flex;
-margin: 1em;
-font-size: 16px;
+.search_text{
+font-size:16px;
+font-weight: 400;
+
 }
-.top_search div{
-display: flex;
-margin-left: 5px;}
+.SeoulNowtemp{
+font-size: 70px;
+}
+.search_box{
+margin:1em;
+border: 2px white;
+border-radius: 10%;
+height: 40px;
+width:200px ;
+}
+.search_box_button{
+    margin: 1em;
+}
+.top_search {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1em;
+    font-size: 16px;
+
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    text-align: center; /* Center text within the element */
+
+}
+
+.top_search div {
+    margin-left: 5px;
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    align-items: center;
+}
+
 .SeoulLowtemp,
 .SeoulHightemp,
 .weather_wind,
@@ -82,7 +125,6 @@ margin-left: 5px;}
 .weather_top{
     display:flex;
 }
-
 .weather_info {
     display: flex;
     flex-direction: column;
@@ -122,8 +164,6 @@ margin-left: 5px;}
         text-align: center; /* テキストを左寄せにする */
     }
 }
-
-
 @media (max-width: 500px) {
     .header button:not(#hamburger) {
         display: none; /* ハンバーガーアイコン以外を非表示 */
@@ -136,7 +176,7 @@ margin-left: 5px;}
         left: 0;
         background-color: #333; /* サイドバーの背景色を設定 */
         padding-top: 20px;
-        z-index: 9999; 
+        z-index: 9999;
     }
     .head_top button {
         margin-top: 1em;
