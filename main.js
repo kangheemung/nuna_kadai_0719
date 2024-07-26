@@ -26,13 +26,32 @@ const weather_wind = document.getElementById("weather_wind");
 const weather_img = document.getElementById("weather_img");
 const humidity = document.getElementById("humidity");
 const weatherMonthElement = document.getElementById("weather_month");
+//영화 api불러오기 ok
+//영화 포스터 제목 년도 상세 설명 순으로 어레이로 나열
+//영화 타이틀 년도 검색하면 카테고리 별로 페이지 표시 하기
+//페이지네이션 작성
 
-const movie_news = async () => {
-  const movieurl = new URL(
-`http://www.omdbapi.com/?i=tt3896198&apikey=${MOVE_API_KEY}&t=${t}`
-  );
-  console.log("movieurl", movieurl);
+const movie_news = async (movieTitle) => {
+  try {
+    const movieUrl = new URL(
+      `http://www.omdbapi.com/?i=tt3896198&apikey=${MOVE_API_KEY}`
+    );
+
+    const movieApiResponse = await fetch(movieUrl);
+
+    if (movieApiResponse.ok) {
+      const movieData = await movieApiResponse.json();
+      console.log("movieurl_movie_data", movieData);
+    } else {
+      console.error("Failed to fetch data");
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
 };
+
+// Example usage:
+movie_news("The Matrix"); // Call the function with a specific movie title
 
 // sidebar要素を取得する
 const head_top = document.querySelector(".head_top");

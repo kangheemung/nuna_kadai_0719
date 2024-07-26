@@ -102,7 +102,6 @@ width:200px ;
     flex-wrap: wrap;
     margin: 1em;
     font-size: 16px;
-
     justify-content: center; /* Center items horizontally */
     align-items: center; /* Center items vertically */
     text-align: center; /* Center text within the element */
