@@ -1,16 +1,15 @@
 const API_KEY = config.apikey;
 const MOVIE_API_KEY = movie_api.movie_api_key;
-const TARGETDT = targetDt.targetDt;
 let city = "Seoul";
 const catnum = 200;
 const lang = "kr"; // 언어 설정 추가
+const searchTextBox = document.getElementById("search_text_box");
+const searchButton = document.getElementById("search_text_button");
 const url = new URL(
   `http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=${lang}&appid=${API_KEY}`
 );
 let moviesList = [];
 const urlcat = new URL(`https://http.cat/${catnum}`);
-const searchTextBox = document.getElementById("search_text_box");
-const searchButton = document.getElementById("search_text_button");
 const outputElement = document.getElementById("output");
 const hamburgers = document.querySelectorAll(".hamburger"); // 複数の要素を取得するためquerySelectorAllを使用// 複数の要素を取得するためquerySelectorAllを使用
 const sidebar = document.querySelector(".sidebar");
@@ -25,7 +24,7 @@ const weather_img = document.getElementById("weather_img");
 const humidity = document.getElementById("humidity");
 const weatherMonthElement = document.getElementById("weather_month");
 const movieurl = new URL(
-  `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${MOVIE_API_KEY}&targetDt=${TARGETDT}`
+  `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${MOVIE_API_KEY}&targetDt=${searchTextBox.value}`
 );
 
 //영화 api불러오기 ok
@@ -35,6 +34,13 @@ const movieurl = new URL(
 
 const movie_news = async () => {
   try {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Adding leading zero if needed
+    const day = String(today.getDate()).padStart(2, "0");
+    const TARGETDT = {
+      targetDt: `${year}${month}${day}`
+    };
     const movieApiResponse = await fetch(movieurl);
 
     if (movieApiResponse.ok) {
@@ -49,6 +55,12 @@ const movie_news = async () => {
     console.error("An error occurred:", error);
   }
 };
+
+// Call the movie_news function when the search button is clicked
+searchButton.addEventListener("click", () => {
+  movie_news();
+});
+
 const render = (movieData) => {
   if (
     !movieData ||
