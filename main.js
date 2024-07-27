@@ -1,15 +1,12 @@
 const API_KEY = config.apikey;
-const MOVE_API_KEY = move_api.move_apikey;
+const MOVIE_API_KEY = movie_api.movie_api_key;
 let city = "Seoul";
 const catnum = 200;
 const lang = "kr"; // 언어 설정 추가
 const url = new URL(
   `http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=${lang}&appid=${API_KEY}`
 );
-const movieurl = new URL(
-  `http://www.omdbapi.com/?i=tt3896198&apikey=${MOVE_API_KEY}`
-);
-
+let moviesList = [];
 const urlcat = new URL(`https://http.cat/${catnum}`);
 const searchTextBox = document.getElementById("search_text_box");
 const searchButton = document.getElementById("search_text_button");
@@ -26,22 +23,22 @@ const weather_wind = document.getElementById("weather_wind");
 const weather_img = document.getElementById("weather_img");
 const humidity = document.getElementById("humidity");
 const weatherMonthElement = document.getElementById("weather_month");
+const movieurl = new URL(
+  `http://www.omdbapi.com/?i=tt3896198&apikey=${MOVIE_API_KEY}`
+);
+
 //영화 api불러오기 ok
 //영화 포스터 제목 년도 상세 설명 순으로 어레이로 나열
 //영화 타이틀 년도 검색하면 카테고리 별로 페이지 표시 하기
 //페이지네이션 작성
 
-const movie_news = async (movieTitle) => {
+const movie_news = async () => {
   try {
-    const movieUrl = new URL(
-      `http://www.omdbapi.com/?i=tt3896198&apikey=${MOVE_API_KEY}`
-    );
-
-    const movieApiResponse = await fetch(movieUrl);
-
+    const movieApiResponse = await fetch(movieurl);
+    const movieData = await movieApiResponse.json();
     if (movieApiResponse.ok) {
-      const movieData = await movieApiResponse.json();
-      console.log("movieurl_movie_data", movieData);
+      moviesList.push(movieData); // Add fetched movie data to moviesList array
+      render(); // Call the render function after adding data to moviesList
     } else {
       console.error("Failed to fetch data");
     }
@@ -49,10 +46,35 @@ const movie_news = async (movieTitle) => {
     console.error("An error occurred:", error);
   }
 };
+const render = () => {
+  const newsHTML = moviesList
+    .map((movie) => {
+      const imageSrc = movie.Poster || "https://example.com/default-image.jpg";
+      const summary =
+        movie.Plot && movie.Plot.length > 200
+          ? `${movie.Plot.substring(0, 200)}...`
+          : movie.Plot || "No description available";
+      const sourceName = movie.Director || "Unknown director";
+      const publishedTime = moment(movie.Released, "DD MMM YYYY").fromNow();
 
-// Example usage:
-movie_news("The Matrix"); // Call the function with a specific movie title
+      return `<div class="row news">
+                    <div class="col-lg-4">
+                        <img class="news_size" src="${imageSrc}" />
+                    </div>
+                    <div class="col-lg-8">
+                        <h2>${movie.Title}</h2>
+                        <p>${summary}</p>
+                        <div>${sourceName} ${publishedTime}</div>
+                    </div>
+                </div>`;
+    })
+    .join("");
 
+  document.getElementById("movie_news").innerHTML = newsHTML;
+};
+
+movie_news();
+render();
 // sidebar要素を取得する
 const head_top = document.querySelector(".head_top");
 citySelect.value = "seoul";
