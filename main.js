@@ -1,5 +1,6 @@
 const API_KEY = config.apikey;
 const MOVIE_API_KEY = movie_api.movie_api_key;
+const TARGETDT = targetDt.targetDt;
 let city = "Seoul";
 const catnum = 200;
 const lang = "kr"; // 언어 설정 추가
@@ -24,7 +25,7 @@ const weather_img = document.getElementById("weather_img");
 const humidity = document.getElementById("humidity");
 const weatherMonthElement = document.getElementById("weather_month");
 const movieurl = new URL(
-  `http://www.omdbapi.com/?i=tt3896198&apikey=${MOVIE_API_KEY}`
+  `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${MOVIE_API_KEY}&targetDt=${TARGETDT}`
 );
 
 //영화 api불러오기 ok
@@ -35,10 +36,12 @@ const movieurl = new URL(
 const movie_news = async () => {
   try {
     const movieApiResponse = await fetch(movieurl);
-    const movieData = await movieApiResponse.json();
+
     if (movieApiResponse.ok) {
-      moviesList.push(movieData); // Add fetched movie data to moviesList array
-      render(); // Call the render function after adding data to moviesList
+      const movieData = await movieApiResponse.json();
+      moviesList.push(movieData);
+      console.log(movieData); // Add fetched movie data to moviesList array
+      render(movieData); // Call the render function after adding data to moviesList
     } else {
       console.error("Failed to fetch data");
     }
@@ -46,35 +49,35 @@ const movie_news = async () => {
     console.error("An error occurred:", error);
   }
 };
-const render = () => {
-  const newsHTML = moviesList
+const render = (movieData) => {
+  if (
+    !movieData ||
+    !movieData.boxOfficeResult ||
+    !movieData.boxOfficeResult.dailyBoxOfficeList
+  ) {
+    console.error("Invalid data format for rendering movie news");
+    return;
+  }
+
+  const newsHTML = movieData.boxOfficeResult.dailyBoxOfficeList
     .map((movie) => {
-      const imageSrc = movie.Poster || "https://example.com/default-image.jpg";
-      const summary =
-        movie.Plot && movie.Plot.length > 200
-          ? `${movie.Plot.substring(0, 200)}...`
-          : movie.Plot || "No description available";
-      const sourceName = movie.Director || "Unknown director";
-      const publishedTime = moment(movie.Released, "DD MMM YYYY").fromNow();
+      const summary = `${movie.movieNm} (${movie.openDt})`;
+      const sourceName = `Rank: ${movie.rank}`;
+      const publishedTime = `Audience Count: ${movie.audiCnt}`;
 
       return `<div class="row news">
-                    <div class="col-lg-4">
-                        <img class="news_size" src="${imageSrc}" />
-                    </div>
-                    <div class="col-lg-8">
-                        <h2>${movie.Title}</h2>
-                        <p>${summary}</p>
-                        <div>${sourceName} ${publishedTime}</div>
-                    </div>
-                </div>`;
+                <div class="col-lg-8">
+                    <h2>${summary}</h2>
+                    <p>${sourceName}</p>
+                    <p>${publishedTime}</p>
+                </div>
+              </div>`;
     })
     .join("");
 
   document.getElementById("movie_news").innerHTML = newsHTML;
 };
 
-movie_news();
-render();
 // sidebar要素を取得する
 const head_top = document.querySelector(".head_top");
 citySelect.value = "seoul";
@@ -276,3 +279,5 @@ const getNews = async () => {
   }
 };
 getNews();
+
+movie_news();
