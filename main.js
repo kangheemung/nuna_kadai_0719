@@ -2,8 +2,16 @@ const API_KEY = config.apikey;
 const MOVIE_API_KEY = movie_api.movie_api_key;
 let city = "Seoul";
 const catnum = 200;
+const today = new Date();
+today.setDate(1); // 이번 달의 1일로 설정
+const thisMonth = today.toISOString().split("T")[0]; // 이번 달의 날짜를 가져와서 포맷팅
+
+console.log(thisMonth); // 이번 달의 날짜를 출력
+
+let searchTextBox = document.getElementById("search_text_box");
+searchTextBox.value = today;
+
 const lang = "kr"; // 언어 설정 추가
-const searchTextBox = document.getElementById("search_text_box");
 const searchButton = document.getElementById("search_text_button");
 const url = new URL(
   `http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=${lang}&appid=${API_KEY}`
@@ -23,31 +31,42 @@ const weather_wind = document.getElementById("weather_wind");
 const weather_img = document.getElementById("weather_img");
 const humidity = document.getElementById("humidity");
 const weatherMonthElement = document.getElementById("weather_month");
-const movieurl = new URL(
-  `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${MOVIE_API_KEY}&targetDt=${searchTextBox.value}`
-);
 
 //영화 api불러오기 ok
 //영화 포스터 제목 년도 상세 설명 순으로 어레이로 나열
 //영화 타이틀 년도 검색하면 카테고리 별로 페이지 표시 하기
 //페이지네이션 작성
+const formatDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}${month}${day}`; // Format: YYYYMMDD
+};
 
+const targetDate = searchTextBox.value;
 const movie_news = async () => {
   try {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0"); // Adding leading zero if needed
-    const day = String(today.getDate()).padStart(2, "0");
-    const TARGETDT = {
-      targetDt: `${year}${month}${day}`
+    const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}${month}${day}`; // Format: YYYYMMDD
     };
+
+    // Retrieve the date from the search text box, or use today's date
+    const targetDate = searchTextBox.value;
+
+    const movieurl = new URL(
+      `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${MOVIE_API_KEY}&targetDt=${targetDate}`
+    );
     const movieApiResponse = await fetch(movieurl);
+    console.log("Movie API Response:", movieApiResponse);
 
     if (movieApiResponse.ok) {
       const movieData = await movieApiResponse.json();
+      console.log("Fetched Movie Data:", movieData);
       moviesList.push(movieData);
-      console.log(movieData); // Add fetched movie data to moviesList array
-      render(movieData); // Call the render function after adding data to moviesList
+      render(movieData);
     } else {
       console.error("Failed to fetch data");
     }
@@ -55,7 +74,6 @@ const movie_news = async () => {
     console.error("An error occurred:", error);
   }
 };
-
 // Call the movie_news function when the search button is clicked
 searchButton.addEventListener("click", () => {
   movie_news();
@@ -109,16 +127,22 @@ const getKeyword = async () => {
     searchTextBox.placeholder = "Please enter a keyword";
     return;
   }
+  await getNews();
+
   outputElement.innerText = keyword;
-  searchTextBox.addEventListener("keypress", function (e) {
-    if (e.key === "Enter") {
-      getKeyword();
-    }
-  });
+  // Removed event listener here as it was causing recursive calls
   searchTextBox.value = "";
 };
 
+// Add event listener only after the function is defined
 searchButton.addEventListener("click", getKeyword);
+
+// Event listener for Enter key press
+searchTextBox.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    getKeyword();
+  }
+});
 
 // サイドバー
 // 「close」ボタンをクリックした際の処理
@@ -160,10 +184,8 @@ const getWeatherForNext30Days = async (latitude, longitude) => {
       const date = new Date(dayData.dt * 1000); // Convert timestamp to date
       const temperature = dayData.main.temp;
       const description = dayData.weather[0].description;
-
       const weatherInfo = document.createElement("div");
       weatherInfo.innerHTML = `<p>Date: ${date.toDateString()}</p><p>Temperature: ${temperature} K</p><p>Description: ${description}</p>`;
-
       weatherMonthElement.appendChild(weatherInfo);
     });
 
@@ -179,7 +201,6 @@ const getLatLonData = async () => {
     const response = await fetch(url);
     const data = await response.json();
     console.log("30데이터", data);
-
     const latitude = data.coord.lat;
     const longitude = data.coord.lon;
 
@@ -195,7 +216,6 @@ citySelect.addEventListener("change", function () {
   url.href = `http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=${lang}&appid=${API_KEY}`;
   getNews(); // Update the current weather information
   wether_city.innerText = capitalizeFirstLetter(city);
-
   // Call the function to get latitude and longitude data for the next 30 days forecast
   getLatLonData();
 });
@@ -207,9 +227,7 @@ const getNews = async () => {
     console.log(response);
     console.log(data);
     //set_cloud(data);
-
     // 서울의 현재 기온을 SeoulNowtemp 요소에 출력
-
     const kelvinTemp = `${data.main.temp}`;
     // Kelvin에서 Celsius로 변환하는 함수
     function kelvinToCelsius(kelvin) {

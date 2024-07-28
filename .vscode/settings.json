@@ -1,0 +1,10 @@
+{
+  "genieai.openai.model": "gpt-3.5-turbo",
+  "workbench.colorTheme": "Visual Studio Dark",
+  "workbench.preferredLightColorTheme": "Default Dark Modern",
+  "workbench.preferredHighContrastLightColorTheme": "Default Dark+",
+  "workbench.preferredHighContrastColorTheme": "Default Dark Modern",
+  "terminal.integrated.tabs.defaultColor": "terminal.ansiBlue",
+  "materialTheme.accent": "Blue",
+  "editor.colorDecoratorsActivatedOn": "hover"
+}
