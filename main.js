@@ -80,11 +80,12 @@ searchButton.addEventListener("click", () => {
 });
 
 const render = (movieData) => {
-  if (
-    !movieData ||
-    !movieData.boxOfficeResult ||
-    !movieData.boxOfficeResult.dailyBoxOfficeList
-  ) {
+  if (!movieData || 
+!movieData.boxOfficeResult || 
+!movieData.boxOfficeResult.dailyBoxOfficeList)
+{
+
+
     console.error("Invalid data format for rendering movie news");
     return;
   }
